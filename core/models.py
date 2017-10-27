@@ -30,6 +30,7 @@ class Group(models.Model):
     description = models.TextField('Description')
     members = models.ManyToManyField(UserProfile, related_name='members')
     created_date = models.DateTimeField('Created', blank=True, null=True)
+    private = models.BooleanField(default=True)
 
     def create(self):
         self.created_date = timezone.now()
