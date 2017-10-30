@@ -26,6 +26,7 @@
 
     <!-- Theme CSS -->
     <link href="{% static 'css/creative.css' %}" rel="stylesheet">
+    <link href="{% static 'css/profile.css' %}" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,16 +49,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+              <a class="nav-link js-scroll-trigger" href="#home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+              <a class="nav-link js-scroll-trigger" href="#following">Following</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#groups">Groups</a>
+              <a class="nav-link js-scroll-trigger" href="#explore">Explore</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'home' %}">Login</a>
+                <a class="nav-link js-scroll-trigger" href="#notifications">Notifications</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'home' %}">Logout</a>
             </li>
            
           </ul>
@@ -67,12 +71,17 @@
 
 
 
-    <section class="bg-primary" id="about">
+    <section class="bg-primary" id="profile">
         <div class="container">
           <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-              <a class="btn btn-default btn-xl js-scroll-trigger" href="#services">Explore</a>
-              <a class="btn btn-default btn-xl js-scroll-trigger" href="#services">Following</a>
+                <div id="profile-wrap">
+                    <div class="pulse1"></div>
+                    <div class="pulse2"></div>
+                    <div class="profile-overlay"></div>
+                    <div class="profile-image"></div>    
+                  </div>
+               <!-- <a class="btn btn-default btn-xl js-scroll-trigger" href="#services">Post</a> -->
             </div>
           </div>
         </div>
