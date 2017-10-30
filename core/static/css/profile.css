@@ -1,6 +1,6 @@
 #profile {
     padding-bottom: 150px; 
-    margin-bottom: 80px; 
+    margin-bottom: 100px; 
 }
 
 #profile-wrap {
@@ -10,7 +10,7 @@
     text-align: center;
     height: 460px;
     width: 450px;
-    z-index: 5;
+    /* z-index: 5; */
 }
 
 .profile-overlay {

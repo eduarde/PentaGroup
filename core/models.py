@@ -19,7 +19,7 @@ class UserProfile(models.Model):
     dob = models.DateField('Date of Birth', null=True)
     
     def __str__(self):
-        return "Profile " + self.user.username
+        return self.user.username
 
 
 
@@ -27,10 +27,10 @@ class UserProfile(models.Model):
 class Group(models.Model):
     admin = models.ForeignKey('auth.User')
     title = models.CharField('Title', max_length=200)
+    category_ref = models.ForeignKey('Category', null=True, verbose_name='Category')
     description = models.TextField('Description')
     members = models.ManyToManyField(UserProfile, related_name='members')
     created_date = models.DateTimeField('Created', blank=True, null=True)
-    private = models.BooleanField(default=True)
 
     def create(self):
         self.created_date = timezone.now()
@@ -53,6 +53,12 @@ class Post(models.Model):
     def publish(self):
         self.published_date = timezone.now()
         self.save()
+
+    def __str__(self):
+        return self.title
+
+class Category(models.Model):
+    title = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title

@@ -15,3 +15,12 @@ class Home(View):
 
     def get(self, request):
         return render(request, self.template_name)
+
+
+
+
+class Explore(View):
+    template_name = 'core/explore.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
