@@ -27,6 +27,7 @@ class UserProfile(models.Model):
 class Group(models.Model):
     admin = models.ForeignKey('auth.User')
     title = models.CharField('Title', max_length=200)
+    image = models.ImageField(upload_to = 'groups/', default = 'groups/default-img.gif')
     category_ref = models.ForeignKey('Category', null=True, verbose_name='Category')
     description = models.TextField('Description')
     members = models.ManyToManyField(UserProfile, related_name='members')
@@ -59,6 +60,7 @@ class Post(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to = 'categories/', default = 'categories/cake.png')
 
     def __str__(self):
         return self.title

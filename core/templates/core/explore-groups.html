@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<br /><br /><br /><br /><br />
+
+<section class="bg-gray-light" id="portfolio">
+    <div class="container">
+      <h2 class="text-center">Groups</h2>
+      <hr class="primary">
+      <div class="row">
+
+        {% for group in groups %} 
+        <div class="col-sm-6 group-item">
+          <div class="card card-inverse">
+              <img class="card-img" src="/static/img/{{ group.image.url }}" alt="Card image">
+              <div class="card-img-overlay">
+                <h4 class="card-title">{{ group.title }}</h4>
+                <p class="card-text"><i>{{ group.description }}</i></p>
+                <p class="card-text"><small class="text-muted">Admin: {{group.admin.username }} </small></p>
+                <p class="card-text">
+                    <a href="#" class="btn btn-primary">Join</a>
+                </p>
+              </div>
+            </div>
+          </div>  
+          {% endfor %}
+
+        
+              
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}   

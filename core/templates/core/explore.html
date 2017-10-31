@@ -2,36 +2,36 @@
 {% load staticfiles %}
 
 {% block content %}
-<br /><br /><br />
+<br /><br /><br /><br /><br />
 
-<section class="bg-gray-light" id="mygroups">
-  <div class="container">
-    <h2 class="text-center">Explore Categories</h2>
-    <hr class="star-primary">
+
+<section class="bg-gray-light" id="portfolio">
+        <div class="container">
+          <h2 class="text-center">Categories</h2>
+          <hr class="star-primary">
+          <div class="row">
+            
+            {% for category in categories %}
+            <div class="col-sm-4 portfolio-item">
+              <a class="portfolio-link" href="{% url 'explore-groups' pk=category.pk %}">
+                <div class="caption">
+                  <div class="caption-content">
+                    {{ category.title }}
+                  </div>
+                </div>
+             
+                <img class="img-fluid" src="/static/img/{{ category.image.url }}" alt="">
+              </a>
+            </div>
+            {% endfor %}
+
     
-    <div class="row">
-      <div class="col-sm-4 portfolio-item">
-        <a class="portfolio-link" href="#portfolioModal1" data-toggle="modal">
-          <img class="img-fluid" src="{% static 'img/portfolio/cabin.png' %}" alt="">
-        </a>
-      </div>
-      
-      <div class="col-sm-4 portfolio-item">
-        <a class="portfolio-link" href="#portfolioModal2" data-toggle="modal">
-          <img class="img-fluid" src="{% static 'img/portfolio/cake.png' %}" alt="">
-        </a>
-      </div>
-      
-      <div class="col-sm-4 portfolio-item">
-        <a class="portfolio-link" href="#portfolioModal3" data-toggle="modal">
-          <img class="img-fluid" src="{% static 'img/portfolio/circus.png' %}" alt="">
-        </a>
-      </div>
-                     
-    </div>
-  </div>
+                
+          </div>
+        </div>
+      </section>
 
-</section>    
+
    
 
 {% endblock %}   
