@@ -5,7 +5,7 @@ from datetime import date, timedelta
 
 
 
-class UserProfile(models.Model):
+class Member(models.Model):
     FEMALE = 'Female'
     MALE = 'Male'
 
@@ -30,7 +30,7 @@ class Group(models.Model):
     image = models.ImageField(upload_to = 'groups/', default = 'groups/default-img.gif')
     category_ref = models.ForeignKey('Category', null=True, verbose_name='Category')
     description = models.TextField('Description')
-    members = models.ManyToManyField(UserProfile, related_name='members')
+    members = models.ManyToManyField(Member, related_name='members')
     created_date = models.DateTimeField('Created', blank=True, null=True)
 
     def create(self):
