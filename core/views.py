@@ -44,3 +44,18 @@ class ExploreGroups(ListView):
 
     def get_queryset(self):
         return Group.objects.all().filter(category_ref = self.get_object()).exclude(members = self.get_member())
+
+
+
+
+class FollowingGroups(ListView):
+    model = Group
+    template_name = 'core/following.html'
+    context_object_name = 'groups'
+
+    def get_member(self):
+        return Member.objects.get(user = self.request.user.pk)
+
+    def get_queryset(self):
+        return Group.objects.filter(members = self.get_member())
+    
