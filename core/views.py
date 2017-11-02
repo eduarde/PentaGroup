@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, ListView
-from .models import Category, Group, Member
+from .models import Category, Group, Member, Post
 
 # Create your views here.
 class Landing(View):
@@ -11,11 +11,21 @@ class Landing(View):
 
 
 
-class Home(View):
+class Home(ListView):
+    model = Post
     template_name = 'core/home.html'
+    context_object_name = 'posts'
 
-    def get(self, request):
-        return render(request, self.template_name)
+    def get_recent_groups(self):
+        return Group.objects.all().order_by('-created_date') 
+
+    def get_context_data(self, **kwargs):
+        context = super(Home, self).get_context_data(**kwargs)
+        context['groups'] = self.get_recent_groups()
+        return context
+
+    def get_queryset(self_queryset):
+        return Post.objects.all().order_by('-published_date')
 
 
 

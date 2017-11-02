@@ -13,13 +13,13 @@
         {% for group in groups %} 
         <div class="col-sm-6 group-item">
           <div class="card card-inverse">
-              <img class="card-img" src="/static/img/{{ group.image.url }}" alt="Card image">
+              <img class="card-img" src="{{ group.image.url }}" alt="Card image">
               <div class="card-img-overlay">
                 <h4 class="card-title">{{ group.title }}</h4>
                 <p class="card-text"><i>{{ group.description }}</i></p>
                 <p class="card-text"><small class="text-muted">Admin: {{group.admin.username }} </small></p>
                 <p class="card-text">
-                    <a href="#" class="btn btn-primary">Open</a>
+                    <a href="#" class="btn btn-secondary">Unfollow</a>
                 </p>
               </div>
             </div>
