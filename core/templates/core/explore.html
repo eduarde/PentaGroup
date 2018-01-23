@@ -1,37 +1,38 @@
-{% extends 'core/base.html' %}
-{% load staticfiles %}
-
-{% block content %}
-<br /><br /><br /><br /><br />
+{% extends 'core/base.html' %} {% load staticfiles %} {% block content %}
+<br />
+<br />
+<br />
+<br />
+<br />
 
 
 <section class="bg-gray-light" id="portfolio">
-        <div class="container">
-          <h2 class="text-center">Categories</h2>
-          <hr class="star-primary">
-          <div class="row">
-            
-            {% for category in categories %}
-            <div class="col-sm-4 portfolio-item">
-              <a class="portfolio-link" href="{% url 'explore-groups' pk=category.pk %}">
-                <div class="caption">
-                  <div class="caption-content">
-                    {{ category.title }}
-                  </div>
-                </div>
-             
-                <img class="img-fluid" src="{{ category.image.url }}" alt="">
-              </a>
+  <div class="container">
+    <h2 class="text-center">Categories</h2>
+    <hr class="star-primary">
+    <div class="row">
+
+      {% for category in categories %}
+      <div class="col-sm-4 portfolio-item">
+        <a class="portfolio-link" href="{% url 'explore-groups' pk=category.pk %}">
+          <div class="caption">
+            <div class="caption-content">
+              {{ category.title }}
             </div>
-            {% endfor %}
-
-    
-                
           </div>
-        </div>
-      </section>
+
+          <img class="img-fluid" src="{{ category.image.url }}" alt="">
+        </a>
+      </div>
+      {% endfor %}
 
 
-   
 
-{% endblock %}   
+    </div>
+  </div>
+</section>
+
+
+
+
+{% endblock %}

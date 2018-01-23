@@ -68,4 +68,19 @@ class FollowingGroups(ListView):
 
     def get_queryset(self):
         return Group.objects.filter(members = self.get_member())
+
+
+
+
+
+class ExpandGroup(ListView):
+    model = Post
+    template_name = 'core/posts.html'
+    context_object_name = 'posts'
+
+    def get_object(self):
+        return get_object_or_404(Group, pk=self.kwargs.get("pk"))
+
+    def get_queryset(self):
+      return Post.objects.all().filter(group_ref = self.get_object()).order_by('-published_date')
     

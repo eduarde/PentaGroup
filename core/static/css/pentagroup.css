@@ -809,10 +809,10 @@ header.masthead {
 
 .pulse1 {
   border: 2px solid rgba(255, 255, 255, 0);
-  box-shadow: inset 0px 0px 15px 10px transparent; }
+  box-shadow: inset 0px 0px 15px 10px rgba(0, 0, 0, 0); }
 
 .pulse2 {
-  border: 10px solid transparent;
+  border: 10px solid rgba(0, 0, 0, 0);
   box-shadow: inset 0px 0px 12px 5px rgba(255, 255, 255, 0); }
 
 @-webkit-keyframes pulsejg1 {
@@ -891,5 +891,9 @@ header.masthead {
   100% {
     transform: scale(1.3);
     opacity: 0; } }
+.group-item {
+  transition: all .2s ease-in-out; }
+  .group-item:hover {
+    transform: scale(1.1); }
 
 /*# sourceMappingURL=pentagroup.css.map */

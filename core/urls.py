@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import Landing, Home, Explore, ExploreGroups, FollowingGroups
+from .views import Landing, Home, Explore, ExploreGroups, FollowingGroups, ExpandGroup
 
 urlpatterns = [
     url(r'^$', Landing.as_view(), name='index'),
@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^explore/groups/(?P<pk>\d+)$', ExploreGroups.as_view(), name='explore-groups'),
 
     url(r'^following/$', FollowingGroups.as_view(), name='following'),
+    url(r'^following/groups/(?P<pk>\d+)$', ExpandGroup.as_view(), name='expand-group'),
+
 
     
 ]
