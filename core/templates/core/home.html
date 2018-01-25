@@ -1,78 +1,82 @@
-{% extends 'core/base.html' %}
-{% load staticfiles %}
-
-{% block content %}
+{% extends 'core/base.html' %} {% load staticfiles %} {% block content %}
 <section id="buttons">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 mx-auto text-center">
         <div class="btn-group btn-group-lg" role="group" aria-label="Actions">
-          <button type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Group</button>
-          <button type="button" class="btn btn-secondary"><i class="fa fa-pencil" aria-hidden="true"></i> Post</button>
+          <button type="button" class="btn btn-primary">
+            <i class="fa fa-plus" aria-hidden="true"></i> Group</button>
+          <button type="button" class="btn btn-secondary">
+            <i class="fa fa-pencil" aria-hidden="true"></i> Post</button>
         </div>
       </div>
     </div>
   </div>
-</section>  
+</section>
 
 
-<section class = "bg-gray-light">
-    <div class="container">
-        
-      
-        {% for post in posts %}
-       
-            <div class="card text-center">
-                <div class="card-header">
-                  {{ post.title }}
-                </div>
-                <div class="card-block">
-                  <h4 class="card-title">{{ post.title }}</h4>
-                  <p class="card-text">{{ post.text }}.</p>
-                 
-                </div>
-                <div class="card-footer text-muted">
-                  {{ post.author }}
-                </div>
-              </div>
-          
-          <hr class="primary">  
-          {% endfor %}
+<section class="bg-gray-light">
+  <div class="container">
 
-       
+
+    {% for post in posts %}
+
+    <div class="card text-center">
+      <div class="card-header">
+        <h4>{{ post.title }}</h4>
+      </div>
+      <div class="card-block">
+        <br />
+        <p class="card-text">{{ post.text }}.</p>
+        <br />
+      </div>
+      <div class="card-footer text-muted">
+        <small> Posted by: {{ post.author }} </small>
+      </div>
     </div>
+
+    <hr class="primary">
+    <br />
+    <br /> {% endfor %}
+
+
+  </div>
 </section>
 
 <section id="popular">
   <div class="container">
-      <h2 class="text-center">Recent Groups</h2>
-      <hr class="primary">
-      <div class="row">
+    <h2 class="text-center">Recent Groups</h2>
+    <hr class="primary">
+    <div class="row">
 
-        {% for group in groups %} 
-        <div class="col-sm-6 group-item">
-          <div class="card card-inverse">
-              <img class="card-img" src="{{ group.image.url }}" alt="Card image">
-              <div class="card-img-overlay">
-                <h4 class="card-title">{{ group.title }}</h4>
-                <p class="card-text"><i>{{ group.description }}</i></p>
-                <p class="card-text"><small class="text-muted">Admin: {{group.admin.username }} </small></p>
-                <p class="card-text">
-                    {% if group.is_user_member == True %}
-                      <a href="#" class="btn btn-secondary">Following</a>
-                    {% else %}
-                      <a href="#" class="btn btn-primary">Follow</a>
-                    {% endif %}
-                </p>
-              </div>
-            </div>
-          </div>  
-          {% endfor %}
+      {% for group in groups %}
+      <div class="col-sm-6 group-item">
+        <div class="card card-inverse">
+          <img class="card-img" src="{{ group.image.url }}" alt="Card image">
+          <div class="card-img-overlay">
+            <h4 class="card-title">{{ group.title }}</h4>
+            <p class="card-text">
+              <i>{{ group.description }}</i>
+            </p>
+            <p class="card-text">
+              <small class="text-muted">Admin: {{group.admin.username }} </small>
+            </p>
+            <p class="card-text">
+              {% if group.is_user_member == True %}
+              <a href="#" class="btn btn-secondary">Following</a>
+              {% else %}
+              <a href="#" class="btn btn-primary">Follow</a>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
 
-        
-              
+
+
     </div>
   </div>
 </section>
- 
-{% endblock %}   
+
+{% endblock %}
