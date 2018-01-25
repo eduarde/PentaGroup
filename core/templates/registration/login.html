@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{% static 'css/pentagroup.css' %}">
 </head>
 
-<body class="text-center">
+<body class="text-center auth">
     {% if form.errors %}
     <div class="alert alert-danger" role="alert">Your username and password didn't match. Please try again.</div>
     {% endif %}
@@ -24,14 +24,14 @@
                 <div class="col"></div>
             <div class="col">
             <form method="post" class="form-signin">{% csrf_token %}
-                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <!-- <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1> -->
                 <br />
                 <label for="id_username" class="sr-only">Username</label>
                 <td>{{ form.username|add_class:"form-control"|attr:"placeholder:Username" }}</td>
                 <label for="inputPassword" class="sr-only">Password</label>
                 <td class="form-control">{{ form.password|add_class:"form-control"|attr:"placeholder:Password" }}</td>
                 <br />
-                <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                
             </form>
             </div>
