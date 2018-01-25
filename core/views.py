@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, ListView
 from .models import Category, Group, Member, Post
+from actstream.models import Action
 
 # Create your views here.
 class Landing(View):
@@ -27,6 +28,15 @@ class Home(ListView):
     def get_queryset(self_queryset):
         return Post.objects.all().order_by('-published_date')
 
+
+
+class Notifications(ListView):
+    model = Action
+    template_name = 'core/notifications.html'
+    context_object_name = 'actions'
+
+    def get_queryset(self_queryset):
+        return Action.objects.all();
 
 
 

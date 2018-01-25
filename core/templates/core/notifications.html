@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %} {% load staticfiles %} {% block content %}
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<section class="bg-gray-light" id="portfolio">
+  <div class="container">
+    <h2 class="text-center">Notifications</h2>
+    <hr class="primary">
+    <div class="row">
+      {% for action in actions %}
+      
+        <div class="col-sm-12">  
+      <div class="card">
+        <div class="card-body">
+           {{action}}
+         <p>
+           <small>  {{action.target.description}} </small>
+         </p>
+ 
+        </div>
+      </div>
+    </div>
+      {% endfor %}
+
+</div>
+
+    
+  </div>
+</section>
+
+
+{% endblock %}

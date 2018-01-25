@@ -40,9 +40,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'actstream',
+    'widget_tweaks',
     'core',
-   
 ]
+
+# Django Activity Stream setup
+
+ACTSTREAM_SETTINGS = {
+    'MANAGER': 'core.managers.CoreActionManager',
+    'FETCH_RELATIONS': True,
+    'USE_PREFETCH': True,
+    'USE_JSONFIELD': False,
+    'GFK_FETCH_DEPTH': 1,
+}
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -130,3 +141,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 INTERNAL_IPS = ('127.0.0.1',)
+
+LOGIN_REDIRECT_URL = 'home'
