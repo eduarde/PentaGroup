@@ -14,18 +14,27 @@
 
       <div class="col-sm-12">
         <div class="card">
-          <div class="card-body"> 
-            <!-- {{ action.target_content_type }} -->
+          <div class="card-body">
 
-            <strong> <i class="fa fa-user" aria-hidden="true"></i> {{action.actor}} </strong> {{action.verb}} 
-            <a href="{% url 'expand-group' pk=action.target.pk  %}"> <u>{{action.target}}</u> </a>
-              <!-- {% if action.target_content_type == "group" %}
-                <a href="{% url 'expand-group' pk=action.target.pk  %}"> <u>{{action.target}}</u> </a>
-              {% endif %} -->
+            <strong>
+              <i class="fa fa-user" aria-hidden="true"></i> {{action.actor}} </strong> {{action.verb}}
+                {% if action.target_content_type.name == "group" %}
+                  <a href="{% url 'expand-group' pk=action.target.pk  %}">
+                    <u>{{action.target}}</u>
+                  </a>
+                {% endif %}
+
+                {% if action.target_content_type.name == "post" %}
+                  <a href="{% url 'expand-post' pk=action.target.pk  %}">
+                    <u>{{action.target}}</u>
+                  </a>
+                {% endif %}
+
             <small> - {{action.timesince }} </small>
-            <br /><br />
+            <br />
+            <br />
             <p>
-             <em>" {{action.target.description}} "</em>
+              <em>" {{action.target.description}} "</em>
             </p>
 
           </div>

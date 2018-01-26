@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView
 from .models import Category, Group, Member, Post
 from actstream.models import Action
 
@@ -13,9 +13,9 @@ class Landing(View):
 
 
 class Home(ListView):
-    model = Post
+    model = Action
     template_name = 'core/home.html'
-    context_object_name = 'posts'
+    context_object_name = 'actions'
 
     def get_recent_groups(self):
         return Group.objects.all().order_by('-created_date') 
@@ -26,7 +26,7 @@ class Home(ListView):
         return context
 
     def get_queryset(self_queryset):
-        return Post.objects.all().order_by('-published_date')
+         return Action.objects.all();
 
 
 
@@ -93,4 +93,13 @@ class ExpandGroup(ListView):
 
     def get_queryset(self):
       return Post.objects.all().filter(group_ref = self.get_object()).order_by('-published_date')
-    
+
+
+
+class ExpandPost(DetailView):
+    model = Post
+    template_name = 'core/post.html'
+    context_object_name = 'post'
+
+    def get_object(self):
+         return get_object_or_404(Post, pk=self.kwargs.get("pk"))

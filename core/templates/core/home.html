@@ -19,25 +19,54 @@
   <div class="container">
 
 
-    {% for post in posts %}
+      <div class="row">
+          {% for action in actions %}
+    
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-body">
+    
+                <strong>
+                  <i class="fa fa-user" aria-hidden="true"></i> {{action.actor}} </strong> {{action.verb}}
+                  {% with "expand-"|add:action.action_object_content_type.name as custom_url %}
+                  
+                    <a href="{% url custom_url pk=action.action_object.pk  %}">
+                      <u>{{action.action_object}}</u> 
+                    </a> 
 
-    <div class="card text-center">
-      <div class="card-header">
-        <h4>{{ post.title }}</h4>
-      </div>
-      <div class="card-block">
-        <br />
-        <p class="card-text">{{ post.text }}.</p>
-        <br />
-      </div>
-      <div class="card-footer text-muted">
-        <small> Posted by: {{ post.author }} </small>
-      </div>
-    </div>
+                    {{ action.action_object_content_type.name }}
 
-    <hr class="primary">
-    <br />
-    <br /> {% endfor %}
+                  {% endwith %}  
+                  
+                  in 
+
+                  {% with "expand-"|add:action.target_content_type.name as custom_url %}
+                  
+                    <a href="{% url custom_url pk=action.target.pk  %}">
+                      <u>{{action.target}}</u> 
+                    </a> 
+
+                    {{ action.target_content_type.name }}
+
+                  {% endwith %}   
+
+                 
+                <small> - {{action.timesince }} </small>
+                <br />
+                <br />
+                <p>
+                  <em>" {{action.target.description}} "</em>
+                </p>
+    
+              </div>
+            </div>
+            <br />
+          </div>
+    
+          {% endfor %}
+    
+        </div>
+    
 
 
   </div>

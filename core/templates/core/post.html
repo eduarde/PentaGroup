@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %} {% load staticfiles %} {% block content %}
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<section class="bg-gray-light">
+    <div class="container">
+
+        <div class="card text-center">
+            <div class="card-header">
+                {{ post.title }}
+            </div>
+            <div class="card-block">
+                <h4 class="card-title">{{ post.title }}</h4>
+                <p class="card-text">{{ post.text }}.</p>
+
+            </div>
+            <div class="card-footer text-muted">
+                {{ post.author }}
+            </div>
+        </div>
+
+        <hr class="primary">
+
+    </div>
+</section>
+
+{% endblock %}
