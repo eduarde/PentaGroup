@@ -27,28 +27,38 @@
               <div class="card-body">
     
                 <strong>
+
                   <i class="fa fa-user" aria-hidden="true"></i> {{action.actor}} </strong> {{action.verb}}
-                  {% with "expand-"|add:action.action_object_content_type.name as custom_url %}
+                 
+                  <!-- If object exists 
+                    1. create the custom url: expand-group or expand-post 
+                    2. display the object -->
+                  {% if action.action_object %}  
+                    {% with "expand-"|add:action.action_object_content_type.name as custom_url %}
+                    
+                      <a href="{% url custom_url pk=action.action_object.pk  %}">
+                        <u>{{action.action_object}}</u> 
+                      </a> 
+
+                      {{ action.action_object_content_type.name }}
+                      on 
+                    {% endwith %}  
+                  {% endif %}
                   
-                    <a href="{% url custom_url pk=action.action_object.pk  %}">
-                      <u>{{action.action_object}}</u> 
-                    </a> 
+                 <!-- If target exists 
+                    1. create the custom url: expand-group or expand-post 
+                    2. display the target -->
+                  {% if action.target %}  
+                    {% with "expand-"|add:action.target_content_type.name as custom_url %}
+                    
+                      <a href="{% url custom_url pk=action.target.pk  %}">
+                        <u>{{action.target}}</u> 
+                      </a> 
 
-                    {{ action.action_object_content_type.name }}
+                      {{ action.target_content_type.name }}
 
-                  {% endwith %}  
-                  
-                  in 
-
-                  {% with "expand-"|add:action.target_content_type.name as custom_url %}
-                  
-                    <a href="{% url custom_url pk=action.target.pk  %}">
-                      <u>{{action.target}}</u> 
-                    </a> 
-
-                    {{ action.target_content_type.name }}
-
-                  {% endwith %}   
+                    {% endwith %} 
+                  {% endif %}  
 
                  
                 <small> - {{action.timesince }} </small>
