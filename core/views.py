@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, ListView, DetailView
 from .models import Category, Group, Member, Post
-from actstream.models import Action, following
+from actstream.models import Action, Follow, following
 
 # Create your views here.
 class Landing(View):
@@ -59,11 +59,8 @@ class ExploreGroups(ListView):
     def get_object(self):
         return get_object_or_404(Category, pk=self.kwargs.get("pk"))
 
-    def get_member(self):
-        return Member.objects.get(user = self.request.user.pk)
-
     def get_queryset(self):
-        return Group.objects.all().filter(category_ref = self.get_object()).exclude(members = self.get_member())
+        return Group.objects.all().filter(category_ref = self.get_object())
 
 
 
@@ -72,7 +69,7 @@ class FollowingGroups(ListView):
     model = following
     template_name = 'core/following.html'
     context_object_name = 'groups'
-    
+
     def get_queryset(self):
         return following(self.request.user.pk)
 

@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load staticfiles %}
+{% load activity_tags %}
 
 {% block content %}
 <br /><br /><br /><br /><br />
@@ -11,20 +12,25 @@
       <div class="row">
 
         {% for group in groups %} 
+        {% if request.user|is_following:group == False %}
+
         <div class="col-sm-6 group-item">
-          <div class="card card-inverse">
-              <img class="card-img" src="{{ group.image.url }}" alt="Card image">
-              <div class="card-img-overlay">
-                <h4 class="card-title">{{ group.title }}</h4>
-                <p class="card-text"><i>{{ group.description }}</i></p>
-                <p class="card-text"><small class="text-muted">Admin: {{group.admin.username }} </small></p>
-                <p class="card-text">
-                    <a href="#" class="btn btn-primary">Follow</a>
-                </p>
+            <div class="card card-inverse">
+                <img class="card-img" src="{{ group.image.url }}" alt="Card image">
+                <div class="card-img-overlay">
+                  <h4 class="card-title">{{ group.title }}</h4>
+                  <p class="card-text"><i>{{ group.description }}</i></p>
+                  <p class="card-text"><small class="text-muted">Admin: {{group.admin.username }} </small></p>
+                  <p class="card-text">
+                      <a href="#" class="btn btn-primary">Follow</a>
+                  </p>
+                </div>
               </div>
-            </div>
-          </div>  
-          {% endfor %}
+            </div>  
+    
+        {% endif %}
+        
+      {% endfor %}
 
         
               
