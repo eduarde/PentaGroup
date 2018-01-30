@@ -24,6 +24,10 @@ def follow_decorator(action):
     return proceed
 
 
+
+# Custom decorator to check if user has access 
+# to view posts from specific group
+# TODO: redirect to specific page if user is not following the group
 def follow_required(redirect_url=None):
 
     def decorator(view_func):
