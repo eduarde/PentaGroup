@@ -1,4 +1,4 @@
-{% extends 'core/base.html' %} {% load staticfiles %} {% block content %}
+{% extends 'core/base.html' %} {% load staticfiles %} {% load activity_tags %} {% block content %}
 <br />
 <br />
 <br />
@@ -8,26 +8,34 @@
 <section class="bg-gray-light">
     <div class="container">
 
-        {% for post in posts %}
-
-        <div class="card text-center">
-            <div class="card-header">
-                {{ post.title }}
-            </div>
-            <div class="card-block">
-                <h4 class="card-title">{{ post.title }}</h4>
-                <p class="card-text">{{ post.text }}.</p>
-
-            </div>
-            <div class="card-footer text-muted">
-                {{ post.author }}
-            </div>
-        </div>
-
+        <h2 class="text-center"> {{posts.first.group_ref}}</h2>
         <hr class="primary"> 
         
-        {% endfor %}
+        {% if request.user|is_following:posts.first.group_ref %} 
+            {% for post in posts %}
 
+            <div class="card text-center">
+                <div class="card-header">
+                    {{ post.title }}
+                </div>
+                <div class="card-block">
+                    <h4 class="card-title">{{ post.title }}</h4>
+                    <p class="card-text">{{ post.text }}.</p>
+
+                </div>
+                <div class="card-footer text-muted">
+                    {{ post.author }}
+                </div>
+            </div>
+
+            <hr class="primary"> {% endfor %}
+        {% else %}
+
+            <div class="text-center">
+                <a href="{% url 'follow' pk=posts.first.group_ref.pk %}" class="btn btn-primary">Follow</a>
+            </div>
+
+        {% endif %}
 
     </div>
 </section>

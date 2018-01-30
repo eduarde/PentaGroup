@@ -1,7 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import View, ListView, DetailView
+from django.views.generic import View, ListView, DetailView, TemplateView
 from .models import Category, Group, Member, Post
 from actstream.models import Action, Follow, following
+from actstream.actions import is_following, follow, unfollow
+from django.utils.decorators import method_decorator
+from .custom_decorators import follow_decorator, FollowAction, follow_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 class Landing(View):
@@ -16,6 +20,7 @@ class Home(ListView):
     model = Action
     template_name = 'core/home.html'
     context_object_name = 'actions'
+    queryset = Action.objects.all()
 
     def get_recent_groups(self):
         return Group.objects.all().order_by('-created_date') 
@@ -25,8 +30,6 @@ class Home(ListView):
         context['groups'] = self.get_recent_groups()
         return context
 
-    def get_queryset(self_queryset):
-         return Action.objects.all();
 
 
 
@@ -34,9 +37,8 @@ class Notifications(ListView):
     model = Action
     template_name = 'core/notifications.html'
     context_object_name = 'actions'
+    queryset = Action.objects.all();
 
-    def get_queryset(self_queryset):
-        return Action.objects.all();
 
 
 
@@ -44,11 +46,9 @@ class Explore(ListView):
     model = Category
     template_name = 'core/explore.html'
     context_object_name = 'categories'
+    queryset = Category.objects.all()
 
-    def get_queryset(self):
-        return Category.objects.all()
-
-
+  
 
 
 class ExploreGroups(ListView):
@@ -85,7 +85,7 @@ class ExpandGroup(ListView):
         return get_object_or_404(Group, pk=self.kwargs.get("pk"))
 
     def get_queryset(self):
-      return Post.objects.all().filter(group_ref = self.get_object()).order_by('-published_date')
+        return Post.objects.all().filter(group_ref = self.get_object()).order_by('-published_date')
 
 
 
@@ -93,6 +93,23 @@ class ExpandPost(DetailView):
     model = Post
     template_name = 'core/post.html'
     context_object_name = 'post'
+    
+    def get_user(self):
+        return self.request.user
 
+    @follow_required('core/home.html')
     def get_object(self):
-         return get_object_or_404(Post, pk=self.kwargs.get("pk"))
+        return get_object_or_404(Post, pk=self.kwargs.get("pk"))
+
+
+
+
+class FollowGroup(ExpandGroup):
+
+    @follow_decorator(FollowAction.UNFOLLOW)
+    def get(self, request, *args, **kwargs):
+        return super(FollowGroup, self).get(request, args, kwargs)
+  
+    
+
+   
