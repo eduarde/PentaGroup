@@ -32,16 +32,6 @@ class Home(ListView):
 
 
 
-
-class Notifications(ListView):
-    model = Action
-    template_name = 'core/notifications.html'
-    context_object_name = 'actions'
-    queryset = Action.objects.all();
-
-
-
-
 class Explore(ListView):
     model = Category
     template_name = 'core/explore.html'
@@ -103,12 +93,12 @@ class ExpandPost(DetailView):
 
 
 
+#TODO: make ajax call or something 
+# class FollowGroup(ExpandGroup):
 
-class FollowGroup(ExpandGroup):
-
-    @follow_decorator(FollowAction.UNFOLLOW)
-    def get(self, request, *args, **kwargs):
-        return super(FollowGroup, self).get(request, args, kwargs)
+#     @follow_decorator(FollowAction.UNFOLLOW)
+#     def get(self, request, *args, **kwargs):
+#         return super(FollowGroup, self).get(request, args, kwargs)
   
     
 
