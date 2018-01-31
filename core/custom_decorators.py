@@ -36,7 +36,13 @@ def follow_required(redirect_url=None):
         def _wrapped_view(request):
 
             result = view_func(request)
-            group = result.group_ref
+            try:
+                # get the group from a single 'post' object
+                group = result.group_ref
+            except AttributeError:
+                # get the group from the first queryset of 'post' objects
+                group = result[0].group_ref
+
             user = request.get_user()
 
             if is_following(user, group):

@@ -23,14 +23,9 @@
                 {{ post.author }}
             </div>
         </div>
-        <hr class="primary"> {% else %}
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-body text-center"> <p>You are not authorized to view this page!</p>
-                </div>
-            </div>
-        </div>
-
+        <hr class="primary">
+        {% else %}
+        {% include 'core/perm_denied.html' %}
         {% endif %}
     </div>
 

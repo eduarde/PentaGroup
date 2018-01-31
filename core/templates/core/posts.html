@@ -8,10 +8,10 @@
 <section class="bg-gray-light">
     <div class="container">
 
-        <h2 class="text-center"> {{posts.first.group_ref}}</h2>
+        <h2 class="text-center"> {{ group }}</h2>
         <hr class="primary"> 
         
-        {% if request.user|is_following:posts.first.group_ref %} 
+        {% if posts %} 
             {% for post in posts %}
 
             <div class="card text-center">
@@ -32,7 +32,8 @@
         {% else %}
 
             <div class="text-center">
-                <a href="{% url 'follow' pk=posts.first.group_ref.pk %}" class="btn btn-primary">Follow</a>
+                    {% include 'core/perm_denied.html' %}  
+                <a href="" class="btn btn-primary">Follow</a>
             </div>
 
         {% endif %}

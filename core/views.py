@@ -71,11 +71,20 @@ class ExpandGroup(ListView):
     template_name = 'core/posts.html'
     context_object_name = 'posts'
 
-    def get_object(self):
+    def get_context_data(self, **kwargs):
+        context = super(ExpandGroup, self).get_context_data(**kwargs)
+        context['group'] = self.get_group_object()
+        return context
+
+    def get_group_object(self):
         return get_object_or_404(Group, pk=self.kwargs.get("pk"))
 
+    def get_user(self):
+        return self.request.user    
+
+    @follow_required('core/home.html')
     def get_queryset(self):
-        return Post.objects.all().filter(group_ref = self.get_object()).order_by('-published_date')
+        return Post.objects.all().filter(group_ref = self.get_group_object()).order_by('-published_date')
 
 
 
