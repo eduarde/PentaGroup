@@ -142,4 +142,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 INTERNAL_IPS = ('127.0.0.1',)
 
+LOGIN_URL = 'index'
 LOGIN_REDIRECT_URL = 'home'
