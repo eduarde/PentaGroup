@@ -27,8 +27,8 @@ def follow_decorator(action):
 
 # Custom decorator to check if user has access 
 # to view posts from specific group
-# TODO: redirect to specific page if user is not following the group
-def follow_required(redirect_url=None):
+
+def follow_required(permit=True):
 
     def decorator(view_func):
 
@@ -47,9 +47,12 @@ def follow_required(redirect_url=None):
 
             if is_following(user, group):
                 return result
+
+            if permit == False:
+                raise PermissionDenied    
            
             return ""
-            # return render_to_response(redirect_url)  
+    
 
         return _wrapped_view
     return decorator
