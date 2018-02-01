@@ -82,7 +82,7 @@ class ExpandGroup(ListView):
     def get_user(self):
         return self.request.user    
 
-    @follow_required(True)
+    @follow_required(raise_exception=False)
     def get_queryset(self):
         return Post.objects.all().filter(group_ref = self.get_group_object()).order_by('-published_date')
 
@@ -91,12 +91,12 @@ class ExpandGroup(ListView):
 class ExpandPost(DetailView):
     model = Post
     template_name = 'core/post.html'
-    context_object_name = 'post'
+    context_object_name = 'post'    
     
     def get_user(self):
         return self.request.user
 
-    @follow_required(False)
+    @follow_required(raise_exception=True)
     def get_object(self):
         return get_object_or_404(Post, pk=self.kwargs.get("pk"))
 

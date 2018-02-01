@@ -2,9 +2,7 @@ from django.core.exceptions import PermissionDenied
 from actstream.actions import is_following, follow, unfollow
 from enum import Enum 
 from functools import wraps
-from django.shortcuts import render_to_response
-from django.shortcuts import redirect
-from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
+
 
 class FollowAction(Enum):
     FOLLOW = 1,
@@ -25,10 +23,9 @@ def follow_decorator(action):
 
 
 
-# Custom decorator to check if user has access 
-# to view posts from specific group
+# Custom decorator to check if user has access to view posts from specific group
 
-def follow_required(permit=True):
+def follow_required(raise_exception=False):
 
     def decorator(view_func):
 
@@ -40,7 +37,7 @@ def follow_required(permit=True):
                 # get the group from a single 'post' object
                 group = result.group_ref
             except AttributeError:
-                # get the group from the first queryset of 'post' objects
+                # get the group from the first 'post' obj from queryset
                 group = result[0].group_ref
 
             user = request.get_user()
@@ -48,7 +45,7 @@ def follow_required(permit=True):
             if is_following(user, group):
                 return result
 
-            if permit == False:
+            if raise_exception:
                 raise PermissionDenied    
            
             return ""
