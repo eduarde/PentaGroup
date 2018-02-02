@@ -2,14 +2,14 @@
 <section id="buttons">
   <div class="container">
     <div class="row">
+      
       <div class="col-lg-8 mx-auto text-center">
         <div class="btn-group btn-group-lg" role="group" aria-label="Actions">
-          <button type="button" class="btn btn-primary">
-            <i class="fa fa-plus" aria-hidden="true"></i> Group</button>
-          <button type="button" class="btn btn-secondary">
-            <i class="fa fa-pencil" aria-hidden="true"></i> Post</button>
+          <a href="{% url 'create-group' %}" class="btn btn-primary">  <i class="fa fa-plus" aria-hidden="true"></i> Group</a>
+          <a href="{% url 'create-group' %}" class="btn btn-secondary">  <i class="fa fa-pencil" aria-hidden="true"></i> Post</a>
         </div>
       </div>
+
     </div>
   </div>
 </section>

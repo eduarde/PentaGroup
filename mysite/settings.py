@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'actstream',
     'widget_tweaks',
+    'crispy_forms',
     'core',
 ]
 
@@ -144,3 +145,5 @@ INTERNAL_IPS = ('127.0.0.1',)
 
 LOGIN_URL = 'index'
 LOGIN_REDIRECT_URL = 'home'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import date, timedelta
-
+from actstream.actions import is_following, follow, unfollow
 
 
 
@@ -26,20 +26,15 @@ class Member(models.Model):
 
 class Group(models.Model):
     admin = models.ForeignKey('auth.User')
-    title = models.CharField('Title', max_length=200)
-    image = models.ImageField(upload_to = 'img/groups/', default = 'img/groups/default-img.gif')
-    category_ref = models.ForeignKey('Category', null=True, verbose_name='Category')
-    description = models.TextField('Description')
-    members = models.ManyToManyField(Member, related_name='members')
+    title = models.CharField('Title', max_length=200, help_text="Add a title for your desired group")
+    image = models.ImageField('Image', upload_to = 'img/groups/', default = 'img/groups/default-img.gif')
+    category_ref = models.ForeignKey('Category', null=True, help_text="Specify the category", verbose_name="Category")
+    description = models.TextField('Description', help_text='Add a short description')
     created_date = models.DateTimeField('Created', blank=True, null=True)
 
     def create(self):
         self.created_date = timezone.now()
         self.save()
-
-    # TODO: this is not working yet
-    def is_user_member(self):
-        return self.request.user.pk in self.members
        
     def __str__(self):
         return self.title

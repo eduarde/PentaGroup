@@ -9,6 +9,9 @@ from .custom_decorators import follow_decorator, FollowAction, follow_required
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
+from .forms import GroupForm
+from django.views.generic.edit import CreateView
+from actstream import action
 
 # Create your views here.
 class Landing(View):
@@ -114,6 +117,31 @@ class FollowGroup(View):
         follow(self.request.user, group_obj)
       
         return HttpResponseRedirect(reverse('expand-group', kwargs={'pk':group_obj.pk}))
+
+
+
+class CreateGroup(CreateView):
+
+    model = Group
+    template_name = 'core/create_group.html'
+    success_url = reverse_lazy('home') 
+    form_class = GroupForm
+
+    def get(self, request, *args, **kwargs):	
+        form = self.form_class()
+        return render(request, self.template_name, {'group_form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.admin = self.request.user
+            self.object.save()
+            action.send(self.request.user, verb = "created", action_object = self.object, target = self.object.category_ref)
+            follow(self.request.user, self.object)
+            form.save()
+            return HttpResponseRedirect(self.success_url)
+
   
     
 
