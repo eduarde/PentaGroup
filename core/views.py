@@ -1,11 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, ListView, DetailView, TemplateView
+from django.views.generic.edit import UpdateView
 from .models import Category, Group, Member, Post
 from actstream.models import Action, Follow, following
 from actstream.actions import is_following, follow, unfollow
 from django.utils.decorators import method_decorator
 from .custom_decorators import follow_decorator, FollowAction, follow_required
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect, HttpResponse
 
 # Create your views here.
 class Landing(View):
@@ -102,12 +105,15 @@ class ExpandPost(DetailView):
 
 
 
-#TODO: make ajax call or something 
-# class FollowGroup(ExpandGroup):
 
-#     @follow_decorator(FollowAction.UNFOLLOW)
-#     def get(self, request, *args, **kwargs):
-#         return super(FollowGroup, self).get(request, args, kwargs)
+
+class FollowGroup(View):
+    
+    def get(self, request, *args, **kwargs):
+        group_obj = get_object_or_404(Group, pk=self.kwargs.get("pk"))
+        follow(self.request.user, group_obj)
+      
+        return HttpResponseRedirect(reverse('expand-group', kwargs={'pk':group_obj.pk}))
   
     
 

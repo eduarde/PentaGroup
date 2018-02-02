@@ -32,8 +32,8 @@
         {% else %}
 
             <div class="text-center">
-                    {% include 'core/perm_denied.html' %}  
-                <a href="" class="btn btn-primary">Follow</a>
+                {% include 'core/perm_denied.html' %}  
+                <a href="{% url 'follow' pk=group.pk %}" class="btn btn-primary">Follow</a>
             </div>
 
         {% endif %}
