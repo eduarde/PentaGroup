@@ -9,7 +9,7 @@ from .custom_decorators import follow_decorator, FollowAction, follow_required
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from .forms import GroupForm
+from .forms import GroupForm, PostForm
 from django.views.generic.edit import CreateView
 from actstream import action
 
@@ -141,6 +141,26 @@ class CreateGroup(CreateView):
             return HttpResponseRedirect(self.success_url)
 
   
+
+class CreatePost(CreateView):
+
+    model = Post
+    template_name = 'core/create_post.html'
+    success_url = reverse_lazy('home')
+    form_class = PostForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'post_form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.author = self.request.user
+            self.object.save()
+            form.save()
+            return HttpResponseRedirect(self.success_url) 
     
 
    

@@ -5,6 +5,9 @@ from actstream.actions import is_following
 from actstream.models import Action
 from django.test.client import Client
 from .helper import ActionVerb
+import unittest
+
+
 
 class GroupTestCase(TestCase):
 
@@ -16,11 +19,10 @@ class GroupTestCase(TestCase):
         self.category = Category.objects.create(title='CategoryTest')
 
 
-    def test_do_follow_actions(self):
+    def test_save(self):
         group = Group.objects.create(admin=self.user, title="GroupTest", category_ref=self.category, description="Group test follow actions")
-        group.do_follow_actions()
-        self.assertTrue(is_following(self.user,group))
-        self.assertTrue(Action.objects.get(verb=ActionVerb.CREATE))
+        self.assertTrue(is_following(self.user, group))
+        self.assertTrue(Action.objects.get(verb=ActionVerb.CREATED))
 
 
 
@@ -33,9 +35,8 @@ class PostTestCase(TestCase):
         self.category = Category.objects.create(title='CategoryTest')
         self.group = Group.objects.create(admin=self.user, title="GroupTest", category_ref=self.category, description="Group test follow actions")
     
-    def test_do_actions(self):
+    def test_save(self):
         post = Post.objects.create(author=self.user, group_ref = self.group, title="Post Test", text="Text Post Test")
-        post.do_actions()
-        self.assertTrue(Action.objects.get(verb=ActionVerb.PUBLISH))
+        self.assertTrue(Action.objects.get(verb=ActionVerb.PUBLISHED))
     
 

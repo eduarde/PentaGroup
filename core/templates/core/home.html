@@ -6,7 +6,7 @@
       <div class="col-lg-8 mx-auto text-center">
         <div class="btn-group btn-group-lg" role="group" aria-label="Actions">
           <a href="{% url 'create-group' %}" class="btn btn-primary">  <i class="fa fa-plus" aria-hidden="true"></i> Group</a>
-          <a href="{% url 'create-group' %}" class="btn btn-secondary">  <i class="fa fa-pencil" aria-hidden="true"></i> Post</a>
+          <a href="{% url 'create-post' %}" class="btn btn-secondary">  <i class="fa fa-pencil" aria-hidden="true"></i> Post</a>
         </div>
       </div>
 
@@ -24,7 +24,7 @@
     
           <!-- Always Display notifications related to the groups.
             However for 'posts' display only the articles that users follow.  -->
-          {% if action.verb != 'posted' or action.verb == 'posted' and request.user|is_following:action.action_object.group_ref == True %}   
+          {% if action.verb != 'published' or action.verb == 'published' and request.user|is_following:action.action_object.group_ref == True %}   
 
           <div class="col-sm-12">
             <div class="card">

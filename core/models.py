@@ -25,7 +25,6 @@ class Member(models.Model):
 
 
 
-
 class Group(models.Model):
     admin = models.ForeignKey('auth.User')
     title = models.CharField('Title', max_length=200, help_text="Add a title for your desired group")
@@ -35,19 +34,17 @@ class Group(models.Model):
     created_date = models.DateTimeField('Created', blank=True, null=True)
 
     def do_follow_actions(self):
-        action.send(self.admin, verb = ActionVerb.CREATE, action_object = self, target = self.category_ref)
+        action.send(self.admin, verb = ActionVerb.CREATED, action_object = self, target = self.category_ref)
         follow(self.admin, self)
 
-
-    def create(self):
+    def save(self, *args, **kwargs):
         self.created_date = timezone.now()
-        self.save()
-        self.do_follow_actions()
-       
+        if self.id is None: 
+            super(Group, self).save(*args, **kwargs)
+            self.do_follow_actions()
+
     def __str__(self):
         return self.title
-
-
 
 
 
@@ -59,15 +56,18 @@ class Post(models.Model):
     published_date = models.DateTimeField('Published', blank=True, null=True)
 
     def do_actions(self):
-        action.send(self.author, verb = ActionVerb.PUBLISH, action_object = self, target = self.group_ref)
+        action.send(self.author, verb = ActionVerb.PUBLISHED, action_object = self, target = self.group_ref)
 
-    def publish(self):
+    def save(self, *args, **kwargs):
         self.published_date = timezone.now()
-        self.save()
-        self.do_actions()
+        if self.id is None: 
+            super(Post, self).save(*args, **kwargs)  
+            self.do_actions()   
 
     def __str__(self):
         return self.title
+
+
 
 class Category(models.Model):
     title = models.CharField(max_length=200)

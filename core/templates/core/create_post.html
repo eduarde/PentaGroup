@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %} {% load staticfiles %} {% load crispy_forms_tags %} {% block content %}
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<section class="bg-gray-light" id="portfolio">
+    <div class="container">
+        <h2 class="text-center">Create a post</h2> 
+        <hr class="primary"><br />
+        <div class="row">
+
+            <div class="col-6 mx-auto text-center">
+                <form action="" method="post">
+                    {% csrf_token %} {{ post_form|crispy }}
+
+                    <br /> <br />
+                    <button type="submit" class="btn btn-primary">Publish</button>
+                    <button type="submit" class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

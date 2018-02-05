@@ -1,7 +1,8 @@
 from enum import Enum 
 
 class ActionVerb(Enum):
-    CREATE = "create",
-    ADD = "add",
-    POST = "post",
-    PUBLISH = "publish"
+
+    ADDED = "added"
+    CREATED = "created"
+    POSTED = "posted"
+    PUBLISHED = "published"
