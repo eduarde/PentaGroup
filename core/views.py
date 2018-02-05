@@ -137,8 +137,6 @@ class CreateGroup(CreateView):
             self.object = form.save(commit=False)
             self.object.admin = self.request.user
             self.object.save()
-            action.send(self.request.user, verb = "created", action_object = self.object, target = self.object.category_ref)
-            follow(self.request.user, self.object)
             form.save()
             return HttpResponseRedirect(self.success_url)
 

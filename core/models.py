@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from datetime import date, timedelta
 from actstream.actions import is_following, follow, unfollow
+from actstream import action
+from .helper import ActionVerb
 
 
 
@@ -27,14 +29,20 @@ class Member(models.Model):
 class Group(models.Model):
     admin = models.ForeignKey('auth.User')
     title = models.CharField('Title', max_length=200, help_text="Add a title for your desired group")
-    image = models.ImageField('Image', upload_to = 'img/groups/', default = 'img/groups/default-img.gif')
+    image = models.ImageField('Image', upload_to = 'img/groups/', default = 'img/groups/default-img.gif', null=True)
     category_ref = models.ForeignKey('Category', null=True, help_text="Specify the category", verbose_name="Category")
     description = models.TextField('Description', help_text='Add a short description')
     created_date = models.DateTimeField('Created', blank=True, null=True)
 
+    def do_follow_actions(self):
+        action.send(self.admin, verb = ActionVerb.CREATE, action_object = self, target = self.category_ref)
+        follow(self.admin, self)
+
+
     def create(self):
         self.created_date = timezone.now()
         self.save()
+        self.do_follow_actions()
        
     def __str__(self):
         return self.title
@@ -50,16 +58,20 @@ class Post(models.Model):
     text = models.TextField('Text')
     published_date = models.DateTimeField('Published', blank=True, null=True)
 
+    def do_actions(self):
+        action.send(self.author, verb = ActionVerb.PUBLISH, action_object = self, target = self.group_ref)
+
     def publish(self):
         self.published_date = timezone.now()
         self.save()
+        self.do_actions()
 
     def __str__(self):
         return self.title
 
 class Category(models.Model):
     title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to = 'img/categories/', default = 'img/categories/cake.png')
+    image = models.ImageField(upload_to = 'img/categories/', default = 'img/categories/cake.png', null=True)
 
     def __str__(self):
         return self.title
