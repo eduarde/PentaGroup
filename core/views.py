@@ -1,17 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, ListView, DetailView, TemplateView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Category, Group, Member, Post
-from actstream.models import Action, Follow, following, followers
-from actstream.actions import is_following, follow, unfollow
 from django.utils.decorators import method_decorator
 from .custom_decorators import follow_decorator, follow_required
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from .forms import GroupForm, PostForm, PostGroupForm
-from django.views.generic.edit import CreateView
+from .forms import GroupForm, PostForm, PostGroupForm, PostDeleteForm
 from actstream import action
+from actstream.models import Action, Follow, following, followers
+from actstream.actions import is_following, follow, unfollow
 from .helper import FollowMethod
 
 # Create your views here.
@@ -222,3 +221,31 @@ class EditPost(UpdateView):
             self.object = form.save(commit=True)
             self.object.save()
             return HttpResponseRedirect(self.get_success_url())   
+
+
+class DeletePost(DeleteView):
+
+    template_name = 'core/delete_post.html'
+    form_class = PostDeleteForm
+    
+    def get_group(self):
+        return self.get_object().group_ref
+
+    def get_object(self):
+        return get_object_or_404(Post, pk=self.kwargs.get('pk'))
+    
+    def get_success_url(self, **kwargs):         
+            return reverse('expand-group', kwargs={'pk': self.group.pk })
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.form_class(instance=self.object)
+        return render(request, self.template_name, {'post_form': form})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.group = self.get_group()
+        form = self.form_class(request.POST, instance=self.object)
+        if form.is_valid():
+            self.object.delete()
+            return HttpResponseRedirect(self.get_success_url())  

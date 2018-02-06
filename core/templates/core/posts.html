@@ -31,7 +31,7 @@
                         <div class="cardbtn">
                            {% if post.author == request.user %} 
                             <a href="{% url 'edit-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-pencil"></i></a>
-                            <span class="cardbtn-item"><i class="fa fa-trash"></i></span>
+                            <a href="{% url 'delete-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-trash"></i></a>
                            {% endif %} 
                             <span class="cardbtn-item"><i class="fa fa-heart"></i></span>
                             
