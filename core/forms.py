@@ -15,3 +15,10 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post      
         exclude = ('author', 'published_date')
+
+
+class PostGroupForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        exclude = ('author', 'published_date', 'group_ref')

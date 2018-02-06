@@ -6,3 +6,8 @@ class ActionVerb(Enum):
     CREATED = "created"
     POSTED = "posted"
     PUBLISHED = "published"
+
+
+class FollowMethod(Enum):
+    FOLLOW = 1
+    UNFOLLOW = 0

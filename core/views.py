@@ -2,16 +2,17 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, ListView, DetailView, TemplateView
 from django.views.generic.edit import UpdateView
 from .models import Category, Group, Member, Post
-from actstream.models import Action, Follow, following
+from actstream.models import Action, Follow, following, followers
 from actstream.actions import is_following, follow, unfollow
 from django.utils.decorators import method_decorator
-from .custom_decorators import follow_decorator, FollowAction, follow_required
+from .custom_decorators import follow_decorator, follow_required
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from .forms import GroupForm, PostForm
+from .forms import GroupForm, PostForm, PostGroupForm
 from django.views.generic.edit import CreateView
 from actstream import action
+from .helper import FollowMethod
 
 # Create your views here.
 class Landing(View):
@@ -80,7 +81,11 @@ class ExpandGroup(ListView):
     def get_context_data(self, **kwargs):
         context = super(ExpandGroup, self).get_context_data(**kwargs)
         context['group'] = self.get_group_object()
+        context['users'] = self.get_followers()
         return context
+
+    def get_followers(self):
+        return followers(self.get_group_object())
 
     def get_group_object(self):
         return get_object_or_404(Group, pk=self.kwargs.get("pk"))
@@ -88,7 +93,7 @@ class ExpandGroup(ListView):
     def get_user(self):
         return self.request.user    
 
-    @follow_required(raise_exception=False)
+    # @follow_required(raise_exception=False)
     def get_queryset(self):
         return Post.objects.all().filter(group_ref = self.get_group_object()).order_by('-published_date')
 
@@ -114,8 +119,7 @@ class FollowGroup(View):
     
     def get(self, request, *args, **kwargs):
         group_obj = get_object_or_404(Group, pk=self.kwargs.get("pk"))
-        follow(self.request.user, group_obj)
-      
+        follow(self.request.user, group_obj) if FollowMethod.FOLLOW.value == int(self.kwargs.get('action')) else unfollow(self.request.user, group_obj)
         return HttpResponseRedirect(reverse('expand-group', kwargs={'pk':group_obj.pk}))
 
 
@@ -160,7 +164,35 @@ class CreatePost(CreateView):
             self.object.author = self.request.user
             self.object.save()
             form.save()
-            return HttpResponseRedirect(self.success_url) 
+            return HttpResponseRedirect(self.success_url)
+
+
+
+class CreatePostGroup(CreateView):
+
+    model = Post
+    template_name = 'core/create_post_group.html'
+    form_class = PostGroupForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'post_group_form': form})
+
+    def get_group_object(self):
+        return get_object_or_404(Group, pk=self.kwargs.get("pk"))
+
+    def get_success_url(self, **kwargs):         
+            return reverse('expand-group', kwargs={'pk': self.kwargs.get("pk")})
+        
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.author = self.request.user
+            self.object.group_ref = self.get_group_object()
+            self.object.save()
+            form.save()
+            return HttpResponseRedirect(self.get_success_url())
     
 
    

@@ -8,35 +8,57 @@
 <section class="bg-gray-light">
     <div class="container">
 
-        <h2 class="text-center"> {{ group }}</h2>
+        <h2 class="text-center"><strong> {{ group }} </strong></h2>
         <hr class="primary"> 
         
-        {% if posts %} 
+        {% if request.user|is_following:group %}
+
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="btn-group btn-group-lg" role="group" aria-label="Actions">
+                    <a href="{% url 'create-post-group' pk=group.pk  %}" class="btn btn-primary">  <i class="fa fa-pencil" aria-hidden="true"></i> Post</a>
+                    <a href="{% url 'follow' pk=group.pk action=0 %}" class="btn btn-secondary">  <i class="fa fa-minus-square" aria-hidden="true"></i> Unfollow </a>
+                </div>
+            </div>
+            <br />
+
+            <div class="row">    
+            <div class="col-12 col-md-8">
             {% for post in posts %}
 
-            <div class="card text-center">
-                <div class="card-header">
-                    {{ post.title }}
+           
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"> {{ post.title }}</h4>
+                        <p class="card-text"> {{ post.text }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <p>Author: {{ post.author }}</p>
+                        <p><small>{{ post.published_date }}</small></p>
+                    </div>
                 </div>
-                <div class="card-block">
-                    <h4 class="card-title">{{ post.title }}</h4>
-                    <p class="card-text">{{ post.text }}.</p>
 
-                </div>
-                <div class="card-footer text-muted">
-                    {{ post.author }}
+                <hr class="primary"> 
+                {% endfor %}
+
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="card">
+                    <div class="card-body"> 
+                        <h4 class="primary">Followers</h4>
+                        {% for user in users %}
+                            <span>{{user}}</span><br />
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-
-            <hr class="primary"> {% endfor %}
+        </div>
         {% else %}
-
             <div class="text-center">
-                {% include 'core/perm_denied.html' %}  
-                <a href="{% url 'follow' pk=group.pk %}" class="btn btn-primary">Follow</a>
+                {% include 'core/perm_denied.html' %}
+                <a href="{% url 'follow' pk=group.pk action=1 %}" class="btn btn-primary">Follow</a>
             </div>
-
         {% endif %}
+
 
     </div>
 </section>

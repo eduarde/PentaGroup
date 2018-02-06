@@ -3,5 +3,5 @@ Pillow
 django-debug-toolbar
 django-activity-stream
 django-widget-tweaks
-enum
+enum34 
 django-crispy-forms
