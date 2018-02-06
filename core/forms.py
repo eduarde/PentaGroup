@@ -27,3 +27,11 @@ class PostGroupForm(forms.ModelForm):
     class Meta:
         model = Post
         exclude = ('author', 'published_date', 'group_ref')
+
+
+
+class PostDeleteForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = []

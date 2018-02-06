@@ -69,7 +69,12 @@
                 <br />
                 <br />
                 <p>
-                  <em>" {{action.target.description}} "</em>
+                  <em>  {% if action.target %}
+                            " {{action.target.description}} "
+                        {% else %}
+                            " {{action.object.text}} "
+                        {% endif %}
+                  </em>
                 </p>
     
               </div>

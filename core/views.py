@@ -195,4 +195,30 @@ class CreatePostGroup(CreateView):
             return HttpResponseRedirect(self.get_success_url())
     
 
-   
+
+class EditPost(UpdateView):
+
+    template_name = 'core/create_post_group.html'
+    form_class = PostGroupForm
+
+    def get_object(self):
+        return get_object_or_404(Post, pk=self.kwargs.get('pk'))
+
+    def get_group_object(self, group_pk):
+        return get_object_or_404(Group, pk=group_pk)
+
+    def get_success_url(self, **kwargs):         
+            return reverse('expand-group', kwargs={'pk': self.get_object().group_ref.pk })
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.form_class(instance=self.object)
+        return render(request, self.template_name, {'post_group_form': form})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.form_class(request.POST, instance=self.object)
+        if form.is_valid():
+            self.object = form.save(commit=True)
+            self.object.save()
+            return HttpResponseRedirect(self.get_success_url())   

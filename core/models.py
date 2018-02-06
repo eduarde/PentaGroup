@@ -34,7 +34,7 @@ class Group(models.Model):
     created_date = models.DateTimeField('Created', blank=True, null=True)
 
     def do_follow_actions(self):
-        action.send(self.admin, verb = ActionVerb.CREATED, action_object = self, target = self.category_ref)
+        action.send(self.admin, verb = ActionVerb.CREATED.value, action_object = self, target = self.category_ref)
         follow(self.admin, self)
 
     def save(self, *args, **kwargs):
@@ -56,13 +56,17 @@ class Post(models.Model):
     published_date = models.DateTimeField('Published', blank=True, null=True)
 
     def do_actions(self):
-        action.send(self.author, verb = ActionVerb.PUBLISHED, action_object = self, target = self.group_ref)
+        action.send(self.author, verb = ActionVerb.PUBLISHED.value, action_object = self, target = self.group_ref)
 
     def save(self, *args, **kwargs):
         self.published_date = timezone.now()
         if self.id is None: 
             super(Post, self).save(*args, **kwargs)  
-            self.do_actions()   
+            self.do_actions()  
+        super(Post, self).save(*args, **kwargs) 
+
+    def __repr__ (self):
+        return '<Post: {} {}'.format(self.title, self.author)
 
     def __str__(self):
         return self.title

@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from .views import Landing, Home, Explore, ExploreGroups, FollowingGroups, ExpandGroup, ExpandPost, FollowGroup, CreateGroup, CreatePost, CreatePostGroup
+from .views import Landing, Home, Explore, ExploreGroups, FollowingGroups, ExpandGroup, ExpandPost, FollowGroup, CreateGroup, CreatePost, CreatePostGroup, EditPost
 from . import views
 
 urlpatterns = [
@@ -31,6 +31,8 @@ urlpatterns = [
     url(r'^create/post/$', login_required(CreatePost.as_view()), name='create-post'),
 
     url(r'^create/post/(?P<pk>\d+)$', login_required(CreatePostGroup.as_view()), name='create-post-group'),
+
+    url(r'^edit/post/(?P<pk>\d+)$', login_required(EditPost.as_view()), name='edit-post'),
 
 
 ]

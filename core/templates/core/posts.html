@@ -28,6 +28,16 @@
            
                 <div class="card">
                     <div class="card-body">
+                        <div class="cardbtn">
+                           {% if post.author == request.user %} 
+                            <a href="{% url 'edit-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-pencil"></i></a>
+                            <span class="cardbtn-item"><i class="fa fa-trash"></i></span>
+                           {% endif %} 
+                            <span class="cardbtn-item"><i class="fa fa-heart"></i></span>
+                            
+                         
+                            
+                        </div>
                         <h4 class="card-title"> {{ post.title }}</h4>
                         <p class="card-text"> {{ post.text }}</p>
                     </div>
@@ -44,9 +54,11 @@
             <div class="col-6 col-md-4">
                 <div class="card">
                     <div class="card-body"> 
-                        <h4 class="primary">Followers</h4>
+                        <h4 class="primary">Followers</h4><br />
                         {% for user in users %}
-                            <span>{{user}}</span><br />
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{user}}</li>
+                        </ul>    
                         {% endfor %}
                     </div>
                 </div>

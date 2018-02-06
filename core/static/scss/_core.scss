@@ -6,6 +6,22 @@
     }   
 }
 
-// p .card-text {
-//     padding-left: 10px;
-// }
+.card {
+
+    .card-body {
+
+        .cardbtn {
+            float: right;
+
+            .cardbtn-item {
+                color: $gray-light-custom;
+                padding: 10px;
+               
+
+                &:hover {
+                    color: $theme-primary;
+                }
+            }
+        }
+    }
+}

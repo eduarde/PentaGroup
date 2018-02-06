@@ -940,4 +940,12 @@ body {
   .group-item:hover {
     transform: scale(1.1); }
 
+.card .card-body .cardbtn {
+  float: right; }
+  .card .card-body .cardbtn .cardbtn-item {
+    color: #cccccc;
+    padding: 10px; }
+    .card .card-body .cardbtn .cardbtn-item:hover {
+      color: #F7992E; }
+
 /*# sourceMappingURL=pentagroup.css.map */
