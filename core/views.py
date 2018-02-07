@@ -170,12 +170,12 @@ class CreatePost(CreateView):
 class CreatePostGroup(CreateView):
 
     model = Post
-    template_name = 'core/create_post_group.html'
+    template_name = 'core/create_post.html'
     form_class = PostGroupForm
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'post_group_form': form})
+        return render(request, self.template_name, {'post_form': form})
 
     def get_group_object(self):
         return get_object_or_404(Group, pk=self.kwargs.get("pk"))
