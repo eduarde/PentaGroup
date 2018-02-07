@@ -8,32 +8,28 @@
 <section class="bg-gray-light">
     <div class="container">
 
+        <div class="row">
 
-        {% if post %}
-        <div class="card">
-                <div class="card-body">
-                    <div class="cardbtn">
-                       {% if post.author == request.user %} 
-                        <a href="{% url 'edit-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-pencil"></i></a>
-                        <a href="{% url 'delete-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-trash"></i></a>
-                       {% endif %} 
-                        <span class="cardbtn-item"><i class="fa fa-heart"></i></span>
-                        
-                     
-                        
-                    </div>
-                    <h4 class="card-title"> {{ post.title }}</h4>
-                    <p class="card-text"> {{ post.text }}</p>
-                </div>
-                <div class="card-footer text-muted">
-                    <p>Author: {{ post.author }}</p>
-                    <p><small>{{ post.published_date }}</small></p>
-                </div>
-            </div>
-        <hr class="primary">
-        {% else %}
-        {% include 'core/perm_denied.html' %}
-        {% endif %}
+            {% if post %}
+            <div class="btn-group btn-group-lg" role="group" aria-label="Actions">
+                <a href="{% url 'expand-group' pk=post.group_ref.pk %}" class="btn btn-info">  <i class="fa fa-angle-left"></i></a>
+            </div> 
+            
+           </div>
+           <br /><br />
+            <div class="row">
+
+                {% include 'core/post_card.html' %}
+                
+                <hr class="primary">
+
+            {% else %}
+
+                    {% include 'core/perm_denied.html' %}
+
+                {% endif %}
+
+        </div>
     </div>
 
     </div>

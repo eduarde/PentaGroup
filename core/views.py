@@ -26,7 +26,7 @@ class Home(ListView):
     model = Action
     template_name = 'core/home.html'
     context_object_name = 'actions'
-    queryset = Action.objects.all()
+    queryset = Action.objects.all().order_by('-id')[:15]
 
     def get_recent_groups(self):
         return Group.objects.all().order_by('-created_date') 

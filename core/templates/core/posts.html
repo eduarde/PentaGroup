@@ -8,9 +8,9 @@
 <section class="bg-gray-light">
     <div class="container">
 
-        <h2 class="text-center"><strong> {{ group }} </strong></h2>
+        <h2 class="text-center"><strong> {{ group }} </strong></h2><br />
         <hr class="primary"> 
-        
+        <br /><br />
         {% if request.user|is_following:group %}
 
             <div class="col-lg-8 mx-auto text-center">
@@ -26,26 +26,7 @@
             {% for post in posts %}
 
            
-                <div class="card">
-                    <div class="card-body">
-                        <div class="cardbtn">
-                           {% if post.author == request.user %} 
-                            <a href="{% url 'edit-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-pencil"></i></a>
-                            <a href="{% url 'delete-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-trash"></i></a>
-                           {% endif %} 
-                            <span class="cardbtn-item"><i class="fa fa-heart"></i></span>
-                            
-                         
-                            
-                        </div>
-                        <h4 class="card-title"> {{ post.title }}</h4>
-                        <p class="card-text"> {{ post.text }}</p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <p>Author: {{ post.author }}</p>
-                        <p><small>{{ post.published_date }}</small></p>
-                    </div>
-                </div>
+                {% include 'core/post_card.html' %}
 
                 <hr class="primary"> 
                 {% endfor %}
@@ -54,7 +35,7 @@
             <div class="col-6 col-md-4">
                 <div class="card">
                     <div class="card-body"> 
-                        <h4 class="primary">Followers</h4><br />
+                        <h4 class="primary"><span class="badge badge-info">Followers</span></h4><br />
                         {% for user in users %}
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{user}}</li>
