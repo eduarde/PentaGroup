@@ -9,7 +9,8 @@ class ActionVerb(Enum):
 
 
 
-
 class FollowMethod(Enum):
     FOLLOW = 1
     UNFOLLOW = 0
+    ADDED_FAV = 1
+    REMOVE_FAV = 0

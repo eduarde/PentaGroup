@@ -32,8 +32,7 @@
             </div>
           </a>
           <div class="card-footer text-muted">
-
-            <a href="#" class="btn btn-secondary btn-sm">Unfollow</a>
+            <a href="{% url 'follow' pk=group.pk action=0 %}" class="btn btn-secondary btn-sm">  <i class="fa fa-minus-square" aria-hidden="true"></i> Unfollow </a>
           </div>
         </div>
 

@@ -41,7 +41,7 @@
                     {% with "expand-"|add:action.action_object_content_type.name as custom_url %}
                     
                       <a href="{% url custom_url pk=action.action_object.pk  %}">
-                        <u>{{action.action_object}}</u> 
+                        {{action.action_object}} 
                       </a> 
 
                       {{ action.action_object_content_type.name }}
@@ -56,7 +56,7 @@
                     {% with "expand-"|add:action.target_content_type.name as custom_url %}
                     
                       <a href="{% url custom_url pk=action.target.pk  %}">
-                        <u>{{action.target}}</u> 
+                        {{action.target}}
                       </a> 
 
                       {{ action.target_content_type.name }}

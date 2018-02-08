@@ -11,7 +11,8 @@ from .forms import GroupForm, PostForm, PostGroupForm, PostDeleteForm
 from actstream import action
 from actstream.models import Action, Follow, following, followers
 from actstream.actions import is_following, follow, unfollow
-from .helper import FollowMethod
+from .helper import FollowMethod, ActionVerb
+
 
 # Create your views here.
 class Landing(View):
@@ -67,7 +68,7 @@ class FollowingGroups(ListView):
     context_object_name = 'groups'
 
     def get_queryset(self):
-        return following(self.request.user.pk)
+        return following(self.request.user.pk, Group)
 
 
 
@@ -154,7 +155,7 @@ class CreatePost(CreateView):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(request.user)
-        return render(request, self.template_name, {'post_form': form})
+        return render(request, self.template_name, {'post_form': form,  'title': 'Add a new post'})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.user, request.POST)
@@ -175,7 +176,7 @@ class CreatePostGroup(CreateView):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'post_form': form})
+        return render(request, self.template_name, {'post_form': form, 'title': 'Add a new post'})
 
     def get_group_object(self):
         return get_object_or_404(Group, pk=self.kwargs.get("pk"))
@@ -197,7 +198,7 @@ class CreatePostGroup(CreateView):
 
 class EditPost(UpdateView):
 
-    template_name = 'core/create_post_group.html'
+    template_name = 'core/create_post.html'
     form_class = PostGroupForm
 
     def get_object(self):
@@ -212,7 +213,7 @@ class EditPost(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.form_class(instance=self.object)
-        return render(request, self.template_name, {'post_group_form': form})
+        return render(request, self.template_name, {'post_form': form, 'title': 'Edit post'})
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -249,3 +250,22 @@ class DeletePost(DeleteView):
         if form.is_valid():
             self.object.delete()
             return HttpResponseRedirect(self.get_success_url())  
+
+
+
+class FavoritePost(View):
+
+    def get(self, request, *args, **kwargs):
+        post_obj = get_object_or_404(Post, pk=self.kwargs.get("pk"))
+        follow(self.request.user, post_obj, send_action=False) if FollowMethod.ADDED_FAV.value == int(self.kwargs.get('action')) else unfollow(self.request.user, post_obj, send_action=False)
+        return HttpResponseRedirect(reverse('expand-group', kwargs={'pk': post_obj.group_ref.pk}))
+
+
+
+class Favorites(ListView):
+    model = following
+    template_name = 'core/favorites.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        return following(self.request.user.pk, Post)

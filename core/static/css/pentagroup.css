@@ -947,5 +947,7 @@ body {
     padding: 10px; }
     .card .card-body .cardbtn .cardbtn-item:hover {
       color: #F7992E; }
+    .card .card-body .cardbtn .cardbtn-item .sel {
+      color: #F7992E; }
 
 /*# sourceMappingURL=pentagroup.css.map */

@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from .views import Landing, Home, Explore, ExploreGroups, FollowingGroups, ExpandGroup, ExpandPost, FollowGroup, CreateGroup, CreatePost, CreatePostGroup, EditPost, DeletePost
+from .views import Landing, Home, Explore, ExploreGroups, FollowingGroups, ExpandGroup, ExpandPost, FollowGroup, CreateGroup, CreatePost, CreatePostGroup, EditPost, DeletePost, FavoritePost, Favorites
 from . import views
 
 urlpatterns = [
@@ -35,6 +35,10 @@ urlpatterns = [
     url(r'^edit/post/(?P<pk>\d+)$', login_required(EditPost.as_view()), name='edit-post'),
 
     url(r'^delete/post/(?P<pk>\d+)$', login_required(DeletePost.as_view()), name='delete-post'),
+
+    url(r'^post/(?P<pk>\d+)/fav/(?P<action>\d+)$', login_required(FavoritePost.as_view()), name='favorite'),
+
+    url(r'^favorites/$', login_required(Favorites.as_view()), name='favorites'),
 
 
 ]

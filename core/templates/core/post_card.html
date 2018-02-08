@@ -1,3 +1,8 @@
+{% load activity_tags %}
+
+<!-- this conidtion is needed for favorites view -->
+{% if request.user|is_following:post.group_ref %}
+
 <div class="card">
         <div class="card-body">
             <div class="cardbtn">
@@ -5,8 +10,12 @@
                 <a href="{% url 'edit-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-pencil"></i></a>
                 <a href="{% url 'delete-post' pk=post.pk %}" class="cardbtn-item"><i class="fa fa-trash"></i></a>
                {% endif %} 
-                <span class="cardbtn-item"><i class="fa fa-heart"></i></span>
-                
+               {% if request.user|is_following:post %}
+                    <a href="{% url 'favorite' pk=post.pk action=0 %}" class="cardbtn-item-sel"><i class="fa fa-heart"></i></a>
+                {% else %}
+                    <a href="{% url 'favorite' pk=post.pk action=1 %}" class="cardbtn-item"><i class="fa fa-heart"></i></a>
+                {% endif %}
+               
              
                 
             </div>
@@ -18,3 +27,7 @@
             <p style="float: right"><small><i class="fa fa-calendar"></i> {{ post.published_date }}</small></p>
         </div>
     </div>
+
+    <hr class="primary">
+
+{% endif %}
