@@ -10,6 +10,8 @@ urlpatterns = [
     
     url(r'^login/$', auth_views.login, name='login'),
 
+    url(r'^signup/$', views.signup, name='signup'),
+
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 
     url(r'^home/$', login_required(Home.as_view()), name='home'),
